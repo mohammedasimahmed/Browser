@@ -8,7 +8,6 @@ import os
 class MainWindow(QMainWindow):
    def __init__(self):
       super().__init__()
-      self.setWindowTitle("Browser")
 
       self.urlBox = QLineEdit("https://www.google.com")
       self.goButton = QPushButton("Go")
@@ -22,6 +21,7 @@ class MainWindow(QMainWindow):
       self.reloadButton.clicked.connect(self.reloadPage)
       self.goButton.clicked.connect(self.handleUrlChange)
       self.browser.setUrl(QUrl("https://www.google.com"))
+      self.browser.urlChanged.connect(self.changeUrl)
       self.urlBox.returnPressed.connect(self.handleUrlChange)
       
       navigationBar = QHBoxLayout()
@@ -45,17 +45,16 @@ class MainWindow(QMainWindow):
       self.browser.setUrl(QUrl(self.urlBox.text()))
    def goBack(self):
       self.browser.back()
-      self.browser.urlChanged.connect(self.changeUrl)
    def goForward(self):
       self.browser.forward()
-      self.browser.urlChanged.connect(self.changeUrl)
    def reloadPage(self):
       self.browser.reload()
-   def changeUrl(self):
-      self.urlBox.setText(self.browser.url().toString())
+   def changeUrl(self, url):
+      self.urlBox.setText(url.toString())
             
       
 app = QApplication(sys.argv)
+QApplication.setApplicationName("Asim's Browser")
 window = MainWindow()
 window.show()
 
