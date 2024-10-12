@@ -22,17 +22,19 @@ class MainWindow(QMainWindow):
       self.goButton.clicked.connect(self.handleUrlChange)
       self.browser.setUrl(QUrl("https://www.google.com"))
       self.browser.urlChanged.connect(self.changeUrl)
+      self.browser.page().settings().setAttribute(QWebEngineSettings.FullScreenSupportEnabled, True)
+      self.browser.page().fullScreenRequested.connect(self.handleFullScreenRequest)
       self.urlBox.returnPressed.connect(self.handleUrlChange)
       
-      navigationBar = QHBoxLayout()
-      navigationBar.addWidget(self.backButton)
-      navigationBar.addWidget(self.reloadButton)
-      navigationBar.addWidget(self.forwardButton)
-      navigationBar.addWidget(self.urlBox)
-      navigationBar.addWidget(self.goButton)
+      self.navigationBar = QToolBar()
+      self.navigationBar.addWidget(self.backButton)
+      self.navigationBar.addWidget(self.reloadButton)
+      self.navigationBar.addWidget(self.forwardButton)
+      self.navigationBar.addWidget(self.urlBox)
+      self.navigationBar.addWidget(self.goButton)
       
       container = QVBoxLayout()
-      container.addLayout(navigationBar)
+      container.addWidget(self.navigationBar)
       container.addWidget(self.browser)
       
       widget = QWidget()
@@ -51,10 +53,18 @@ class MainWindow(QMainWindow):
       self.browser.reload()
    def changeUrl(self, url):
       self.urlBox.setText(url.toString())
+   def handleFullScreenRequest(self, request):
+      request.accept()
+      if request.toggleOn():
+         self.showFullScreen()
+         self.navigationBar.hide()
+      else:
+         self.showMaximized()
+         self.navigationBar.show()
             
       
 app = QApplication(sys.argv)
-QApplication.setApplicationName("Asim's Browser")
+QApplication.setApplicationName("My Browser")
 window = MainWindow()
 window.show()
 
