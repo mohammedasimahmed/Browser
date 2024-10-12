@@ -39,6 +39,7 @@ class MainWindow(QMainWindow):
       widget.setLayout(container)
       
       self.setCentralWidget(widget)   
+      self.showMaximized()
    
    def handleUrlChange(self):
       self.browser.setUrl(QUrl(self.urlBox.text()))
