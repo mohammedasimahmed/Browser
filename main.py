@@ -61,7 +61,7 @@ class Tab(QMainWindow):
       self.urlBox.setText(url.toString())
    def handleTitleChange(self):
       self.setWindowTitle(self.browser.page().title())
-      print(self.browser.page().title())
+      # print(self.browser.page().title())
    def handleFullScreenRequest(self, request):
       request.accept()
       if request.toggleOn():
@@ -94,9 +94,9 @@ class TableWidget(QWidget):
    def handleTabTitleChange(self, tab):
       ind = self.tabs.indexOf(tab)
       self.tabs.setTabText(ind, tab.windowTitle())
-      print(ind)
-      print
-      print("bye")
+      # print(ind)
+      # print
+      # print("bye")
    
    def closeTab(self, index):
       if self.tabs.count()<2:
@@ -111,7 +111,7 @@ class TableWidget(QWidget):
       
       self.tabs.addTab(tab_instance, "")
       tab_instance.windowTitleChanged.connect(lambda: self.handleTabTitleChange(tab_instance))
-      print("hey")
+      # print("hey")
 
       
 class MainWindow(QMainWindow):
